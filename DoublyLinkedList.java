@@ -58,7 +58,7 @@ public class DoublyLinkedList{
 		prevNode.next = newNode;
 
 		//Make prevNode as the previous of the newNode
-		newNode.prevNode = prevNode;
+		newNode.prev = prevNode;
 
 		//Change the previous of newNode's next node
 		if(newNode.next != null){
@@ -96,7 +96,7 @@ public class DoublyLinkedList{
 	public void printList(){
 		while(head != null){
 			System.out.print(head.data);
-			head.next;
+			head = head.next;
 		}
 
 		System.out.println();
