@@ -8,5 +8,9 @@ public class Test{
 		list.push(4);
 
 		list.printList();
+
+		list.append(5);
+
+		list.printList();
 	}
 }

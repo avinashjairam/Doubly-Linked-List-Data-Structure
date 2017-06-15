@@ -9,14 +9,13 @@ public class DoublyLinkedList{
 
 		Node newNode = new Node(data);
 
-		if(head == null){
-			head = newNode;
-		}
-		else{
-			newNode.next = head;
+		newNode.next = head;
+
+		if(head != null){
 			head.prev = newNode;
-			head = newNode;
 		}
+	
+		head = newNode;
 	}
 
 	public void insertBefore(Node befNode, int data){
@@ -79,6 +78,7 @@ public class DoublyLinkedList{
 
 		//If the list is empty, then make the new node the head of the list 
 		if(head == null){
+			System.out.println("empty list");
 			newNode.prev = null;
 			head = newNode;
 			return;
@@ -95,7 +95,7 @@ public class DoublyLinkedList{
 
 	public void printList(){
 		while(head != null){
-			System.out.print(head.data);
+			System.out.print(head.data + " ");
 			head = head.next;
 		}
 
