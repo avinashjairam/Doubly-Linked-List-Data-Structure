@@ -1,21 +1,36 @@
 public class DoublyLinkedList{
-	Node head;
+	Node head, tail;
+	int size;
 
 	public DoublyLinkedList(){
-		head = null;
+		this.head = null;
+		this.tail = null;
+		this.size = 0;
+	}
+
+	public boolean isEmpty(){
+		return head == null;
+	}
+
+	public int getSize(){
+		return size;
 	}
 
 	public void push(int data){
 
 		Node newNode = new Node(data);
 
-		newNode.next = head;
-
-		if(head != null){
-			head.prev = newNode;
+		if(head == null){
+			head = newNode;
+			tail = newNode;
 		}
-	
-		head = newNode;
+		else{
+			head.prev = head;
+			newNode.next = head;
+			head = newNode;
+		}
+
+		size++;
 	}
 
 	public void insertBefore(Node befNode, int data){
@@ -39,29 +54,70 @@ public class DoublyLinkedList{
 		}
 		
 	}
+	//Function to insert element at position
+	public void insertAtPosition(int val, int pos){
+		Node newNode = new Node(val);
 
-	public void insertAfter(Node prevNode, int data){
-		//Check if Prev Node is Null
-		if(prevNode == null){
-			System.out.println("the given previous node cannot be null");
-			return; 
+		if(pos == 1){
+			push(val);
+			return;
 		}
 
-		//Allocate new Node
-		Node newNode = new Node(data);
+		Node ptr = head;
 
-		//Make new of newNode as next of previous Node
-		newNode.next = prevNode.next;
+		for(int i = 2; i <= size; i++){
+			if(i == pos){
+				Node tmp = ptr.next;
+				ptr.next = newNode;
+				newNode.prev = ptr;
+				newNode.next = tmp; 
+				tmp.prev = newNode; 
+			}
 
-		//Make the next of prevNode as new node
-		prevNode.next = newNode;
+			ptr = ptr.next;
+		}
 
-		//Make prevNode as the previous of the newNode
-		newNode.prev = prevNode;
+		size++;
 
-		//Change the previous of newNode's next node
-		if(newNode.next != null){
-			newNode.next.prev = newNode;
+	}
+
+	public void deleteAtPos(int pos){
+		if(pos == 1){
+			if(size == 1){
+				head = null;
+				tail = null;
+				size = 0;
+				return;
+			}
+
+			head = head.next;
+			head.prev = null;
+			size--;
+			return;
+		}
+
+		if(pos == size){
+			tail = tail.prev;
+			tail.next = null;
+			size--;
+			return;
+		}
+
+		Node ptr = head.next;
+
+		for(int i = 2; i <= size; i++){
+			if(i == pos){
+				Node p = ptr.prev;
+				Node n = ptr.next;
+
+				p.next = n;
+				n.prev = p;
+
+				size--;
+				return;
+			}
+
+			ptr = ptr.next;
 		}
 
 	}
@@ -71,26 +127,17 @@ public class DoublyLinkedList{
 	public void append(int data){
 		Node newNode = new Node(data);
 
-		//This node is going to be the last node, so make the next of it null
-		newNode.next = null;
-
-		Node last = head;
-
-		//If the list is empty, then make the new node the head of the list 
 		if(head == null){
-			System.out.println("empty list");
-			newNode.prev = null;
 			head = newNode;
-			return;
+			tail = newNode;
+		}
+		else{
+			newNode.prev = tail;
+			tail.next = newNode;
+			tail = newNode;
 		}
 
-		//Otherwise, travel until the last node
-		while(last.next != null){
-			last = last.next;
-		}
-
-		last.next = newNode;
-		newNode.prev = last; 
+		size++;
 	}
 
 	public void printList(){
