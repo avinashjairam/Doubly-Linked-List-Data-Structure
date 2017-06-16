@@ -1,26 +1,24 @@
-public class Test{
+public class Test2{
 	public static void main(String [] args){
-		DoublyLinkedList list = new DoublyLinkedList();
+		DoublyLinkedList2 list = new DoublyLinkedList2();
 
 		list.append(5);
-			//			System.out.println("head is " + list.head.data);
-
-
-		list.printList();
+						
 
 		list.push(1);
 		
 
 		list.push(2);
+		list.printList();
 			list.push(3);
 		list.push(4);
 		list.append(5);
 		list.push(3);
-		list.insertAtPosition(1,66);
+
 		list.push(4);
 		list.append(5);
 		list.printList();
-
-		//list.printList();
+		list.deleteInt(3);
+		list.printList();
 	}
 }
