@@ -1,16 +1,13 @@
-public class Test2{
+public class Test{
 	public static void main(String [] args){
-		DoublyLinkedList2 list = new DoublyLinkedList2();
+		DoublyLinkedList list = new DoublyLinkedList();
 
 		list.append(5);
-						
-
 		list.push(1);
-		
 
 		list.push(2);
 		list.printList();
-			list.push(3);
+		list.push(3);
 		list.push(4);
 		list.append(5);
 		list.push(3);
