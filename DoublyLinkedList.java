@@ -171,6 +171,47 @@ public class DoublyLinkedList{
 		//Set the next of the tail pointer to null
 		tail.setNext(null);
 	}
-	
 
+	public void insertAt(int pos, int data){
+		if(pos == 1){
+			this.push(data);
+			return;
+		}
+		else{
+			DoubleNode temp = head;
+			DoubleNode newNode = new DoubleNode(data);
+			int index = 1;
+
+			while(temp != null  ){
+				if(index == pos){
+					break;
+				}
+				System.out.println("temp is " + temp.getData());
+				temp = temp.getNext();
+				
+				index++;
+			}
+
+			if(index > pos){
+				System.out.println("insert position is out of bounds");
+				return;
+			}
+
+			
+
+			newNode.setNext(temp);
+			newNode.setPrev(temp.getPrev());
+
+			temp.getPrev().setNext(newNode);
+			temp.setPrev(newNode);
+
+			
+			
+
+			System.out.println("temp is " + temp.getData());
+
+		}
+
+	}
+	
 }
