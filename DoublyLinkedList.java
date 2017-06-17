@@ -1,153 +1,176 @@
-public class DoublyLinkedList{
-	Node head, tail;
-	int size;
+//This class implements a doubly linked list of integers in Java
+//The instance variables head and tail are initially null
+//As elements are added, head points to the first element on the list and tail points to the last element. Each node on the list is
+//of type DoubleNode.  Each DoubleNode holds a pointer to the previous node and a pointer to the next node in the list. 
 
+public class DoublyLinkedList{
+	private DoubleNode head;
+	private DoubleNode tail;
+
+	//Constructs a new DoublyLinkedList object with head and tail as null
 	public DoublyLinkedList(){
-		this.head = null;
-		this.tail = null;
-		this.size = 0;
+		head = null;
+		tail = null;
 	}
 
+	//Returns true if the list is empty
 	public boolean isEmpty(){
 		return head == null;
 	}
 
-	public int getSize(){
-		return size;
-	}
+	//Adding a node to the end of the list 
+	public void append(int data){
+		DoubleNode newNode = new DoubleNode(tail, data, null);
 
-	public void push(int data){
-
-		Node newNode = new Node(data);
-
-		if(head == null){
-			head = newNode;
-			tail = newNode;
+		if(isEmpty()){
+			head = tail = newNode;
 		}
 		else{
-			head.prev = head;
-			newNode.next = head;
-			head = newNode;
+			tail.setNext(newNode);
+			tail = newNode;
 		}
-
-		size++;
 	}
 
-	public void insertBefore(Node befNode, int data){
-		//Check if the befNode is null
-		if(befNode == null){
-			System.out.println("the given befNode node cannot be null");
-			return;
+	//Add a node to the front of the list
+	public void push(int data){
+		DoubleNode newNode = new DoubleNode(null, data, head);
+
+		if(isEmpty()){
+			head = tail = newNode;
+		}
+		head.setPrev(newNode);
+		head = newNode;
+	}
+
+	//Remove a node from the front of the list
+	public int removeFront(){
+		int x = head.data;
+
+		if(!isEmpty()){
+			if(head == tail){
+				head = tail = null;
+			}
+			else{
+				head = head.getNext();
+				head.setPrev(null);
+			}
 		}
 
-		//Allocate new Node
-		Node newNode = new Node(data);
+		return x;
+	}
 
-		//Make the next of the new Node the befNode
-		newNode.next = befNode;
-	
-		newNode.prev = befNode.prev;
-		//Make the previous of the befNode the previous of the newNode
+	//Remove a Node from the end of the list
 
-		if(newNode.prev != null){
-			newNode.prev.next = newNode;
+	public int removeEnd(){
+		int x = tail.data;
+
+		if(!isEmpty()){
+			if(head == tail){
+				head = tail = null;
+			}
+
+			tail = tail.getPrev();
+			tail.setNext(null);
+
 		}
 		
-	}
-	//Function to insert element at position
-	public void insertAtPosition(int val, int pos){
-		Node newNode = new Node(val);
-
-		if(pos == 1){
-			push(val);
-			return;
-		}
-
-		Node ptr = head;
-
-		for(int i = 2; i <= size; i++){
-			if(i == pos){
-				Node tmp = ptr.next;
-				ptr.next = newNode;
-				newNode.prev = ptr;
-				newNode.next = tmp; 
-				tmp.prev = newNode; 
-			}
-
-			ptr = ptr.next;
-		}
-
-		size++;
-
+		return x; 
 	}
 
-	public void deleteAtPos(int pos){
-		if(pos == 1){
-			if(size == 1){
-				head = null;
-				tail = null;
-				size = 0;
-				return;
-			}
+	//Count The Number of Nodes in the list
+	public int countNodes(){
+		int count = 0;
+		DoubleNode temp = head;
 
-			head = head.next;
-			head.prev = null;
-			size--;
-			return;
-		}
-
-		if(pos == size){
-			tail = tail.prev;
-			tail.next = null;
-			size--;
-			return;
-		}
-
-		Node ptr = head.next;
-
-		for(int i = 2; i <= size; i++){
-			if(i == pos){
-				Node p = ptr.prev;
-				Node n = ptr.next;
-
-				p.next = n;
-				n.prev = p;
-
-				size--;
-				return;
-			}
-
-			ptr = ptr.next;
-		}
-
-	}
-
-	//Adding a node to the end of the list: Given a reference (pointer to pointer) to the head 
-	//of a DLL and an int, appends a new node at the end 
-	public void append(int data){
-		Node newNode = new Node(data);
-
-		if(head == null){
-			head = newNode;
-			tail = newNode;
-		}
-		else{
-			newNode.prev = tail;
-			tail.next = newNode;
-			tail = newNode;
-		}
-
-		size++;
-	}
-
-	public void printList(){
 		while(head != null){
-			System.out.print(head.data + " ");
-			head = head.next;
+			count++;
+			temp = head.getNext();
+		}
+
+		return count;
+	}
+
+	//Deletes the first occurence of the a number in the list. The list is not modified at all. 
+	public void deleteInt(int x){
+		DoubleNode temp = head; 
+
+		while(temp.getData() != x){
+			temp = temp.getNext();
+		}
+		if(temp != null){
+			//if the item to be deleted is head 
+			if(temp.getPrev() == null){
+				head = temp.getNext();
+
+				if(!isEmpty()){
+					head.setPrev(null);
+				}
+			}
+			else if(temp.getNext() == null){
+				tail = tail.getPrev();
+
+				if(!isEmpty()){
+					tail.setNext(null);
+				}
+			}
+			else{
+				temp.getPrev().setNext(temp.getNext());
+				temp.getNext().setPrev(temp.getPrev());
+			}
+		}
+
+	}
+
+	//Print list of nodes from left to right.
+	public void printList(){
+		DoubleNode temp = head;
+
+		while(temp != null){
+			System.out.print(temp.data + " ");
+			temp = temp.getNext();
 		}
 
 		System.out.println();
 	}
 
+	//Print the list backwards
+	public void printListBackwards(){
+		DoubleNode temp = tail;
+
+		while(temp != null){
+			System.out.print(temp.data + " ");
+			temp = temp.getPrev();
+		}
+
+		System.out.println();
+	}
+
+
+	//Method to reverse the doubly linked list
+	public void reverseList(){
+
+		//First set an object to the tail
+		DoubleNode temp = tail; 
+
+		//Starting from the tail, working backwards, set swap the next and prev pointers of each node
+
+		while(temp.getPrev() != null){
+			temp.setNext(temp.getPrev());
+			temp.setPrev(temp.getNext());
+			temp = temp.getPrev();
+		}
+
+		//Swap the head and tail pointers
+		DoubleNode ptr = head;
+		head = tail;
+		tail = ptr;
+
+		//Set the previous of the new head to null
+		head.setPrev(null);
+
+		//Set the next of the tail pointer to null
+		tail.setNext(null);
+	}
+	
 
 }
